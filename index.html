@@ -1,0 +1,122 @@
+# Formularz kontaktowy · Cloudflare Pages + Resend
+
+## Architektura
+
+```
+[ przeglądarka ]
+      │ POST /api/contact  (JSON)
+      ▼
+[ Cloudflare Pages Function ]   ← functions/api/contact.js
+      │ walidacja + honeypot + rate-limit
+      │ fetch https://api.resend.com/emails
+      ▼
+[ Resend ]  →  inbox CONTACT_TO
+```
+
+Cały stack pozostaje bez build-stepu. Pages serwuje `index.html`, a katalog `functions/` jest automatycznie deployowany jako Workery.
+
+## Pliki
+
+- `functions/api/contact.js` — endpoint POST `/api/contact`
+- `app.jsx` — formularz (kontrolowany, fetch + obsługa błędów)
+
+## Deploy na Cloudflare Pages
+
+### 1. Połącz repo
+
+Pages → Create project → Connect Git → wybierz repo.
+
+**Build settings:**
+- Framework preset: **None**
+- Build command: *(puste)*
+- Build output directory: `/` (root)
+
+### 2. Domena nadawcy w Resend
+
+W resend.com → Domains:
+1. Dodaj `cosmobloom.studio` (lub subdomenę typu `mail.cosmobloom.studio`).
+2. Dodaj zwrócone rekordy DNS (SPF, DKIM, opcjonalnie DMARC) w Cloudflare DNS.
+3. Poczekaj na status **Verified**.
+4. Wygeneruj API key w API Keys → **Create API Key** (uprawnienia: Sending access).
+
+### 3. Environment variables w Pages
+
+Pages → Settings → **Environment variables** → Production (i Preview, jeśli chcesz testować):
+
+| Klucz              | Wartość                                              |
+|--------------------|------------------------------------------------------|
+| `RESEND_API_KEY`   | `re_xxxxxxxxxxxxxxxx` (oznacz jako **Encrypted**)    |
+| `CONTACT_TO`       | `kontakt@cosmobloom.studio`                          |
+| `CONTACT_FROM`     | `Cosmo Bloom <noreply@cosmobloom.studio>`            |
+
+⚠️ `CONTACT_FROM` musi używać domeny zweryfikowanej w Resend.
+
+### 4. (Opcjonalnie) Rate-limiting przez KV
+
+W `functions/api/contact.js` jest wbudowany limit 5 wysyłek / IP / godzinę — aktywuje się tylko przy podpiętym KV.
+
+1. Workers & Pages → KV → **Create namespace** → np. `cosmo_rate_limit`.
+2. Pages → Settings → **Functions** → KV namespace bindings → dodaj:
+   - Variable name: `RATE_LIMIT_KV`
+   - KV namespace: `cosmo_rate_limit`
+
+Bez KV endpoint dalej działa — po prostu nie egzekwuje limitu.
+
+### 5. Lokalny dev
+
+```bash
+npm i -g wrangler
+wrangler pages dev . --compatibility-date=2025-01-01
+```
+
+W `.dev.vars` (gitignore'd):
+
+```
+RESEND_API_KEY=re_test_...
+CONTACT_TO=ty@example.com
+CONTACT_FROM=onboarding@resend.dev
+```
+
+`onboarding@resend.dev` to sandbox Resend — działa bez weryfikacji domeny, ale wysyła tylko na adres właściciela konta.
+
+## Kontrakt API
+
+### POST `/api/contact`
+
+**Request body (JSON):**
+```json
+{
+  "name": "Jan Kowalski",
+  "email": "jan@firma.pl",
+  "budget": "30–80k",
+  "message": "Potrzebuję landing page na marzec…",
+  "website": ""
+}
+```
+
+`website` to honeypot — musi być puste. Boty zwykle wypełniają wszystkie pola; jeśli to pole ma wartość, serwer zwraca `200 ok` ale **nie wysyła maila**.
+
+**Możliwe odpowiedzi:**
+
+| Status | Body                                              | Znaczenie                          |
+|--------|---------------------------------------------------|------------------------------------|
+| 200    | `{ ok: true, id: "..." }`                         | Wysłane                            |
+| 400    | `{ ok: false, error: "Invalid JSON body" }`       | Błędny payload                     |
+| 422    | `{ ok: false, error: "...", fields: ["email"] }`  | Walidacja, lista pól do poprawy    |
+| 429    | `{ ok: false, error: "Too many requests" }`       | Rate-limit (gdy KV podpięte)       |
+| 500    | `{ ok: false, error: "Server misconfigured..." }` | Brakuje env varów                  |
+| 502    | `{ ok: false, error: "Email delivery failed" }`   | Resend zwrócił błąd                |
+
+## Bezpieczeństwo
+
+- **Honeypot** (`website`) — łapie >90% prostych botów bez CAPTCHA.
+- **Walidacja długości** — name 2–120, email regex, message 10–5000 znaków.
+- **HTML-escape** w treści maila — żadne `<script>` od użytkownika nie trafi do skrzynki.
+- **Rate-limit** 5/h/IP (gdy KV podpięte).
+- **Reply-to** ustawiony na adres z formularza, więc odpowiadasz bezpośrednio do klienta.
+
+## Tipy
+
+- Logi błędów: Pages → Functions → Real-time logs.
+- Jeśli widzisz `Server misconfigured: missing CONTACT_FROM` — env vary nie zostały podpięte do produkcyjnego deploymentu (uwaga: po dodaniu varów trzeba **redeploy**).
+- Resend ma free tier 3 000 maili/mc i 100/dzień — wystarczy z zapasem.
