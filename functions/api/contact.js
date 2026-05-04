@@ -6,7 +6,7 @@
  *   CONTACT_TO        — adres odbiorcy (np. kontakt@cosmobloom.studio)
  *   CONTACT_FROM      — adres nadawcy zweryfikowany w Resend
  *                       (np. "Cosmo Bloom <noreply@cosmobloom.studio>")
- *   CONTACT_REPLY_TO  — opcjonalnie, domyślnie używamy adresu z formularza
+ *   CONTACT_REPLY_TO  — opcjonalnie, domyślnie używamy adresu z formularz
  *
  * Opcjonalnie (KV namespace dla rate-limit):
  *   RATE_LIMIT_KV     — KV binding (Pages → Settings → Functions → KV bindings)
