@@ -3,14 +3,158 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Cosmo Bloom · Studio Projektowo-Inżynierskie</title>
+
+<!-- Primary SEO -->
+<title>Cosmo Bloom · Projektowanie stron i aplikacji webowych | Warszawa</title>
+<meta name="description" content="Cosmo Bloom — studio projektowo-inżynierskie z Warszawy. Tworzymy strony i aplikacje webowe, które zwiększają konwersję, ładują się błyskawicznie i wyróżniają markę. Design, kod, SEO, opieka." />
+<meta name="keywords" content="projektowanie stron internetowych, agencja webowa Warszawa, aplikacje webowe, UX/UI design, Next.js, SEO techniczne, Cosmo Bloom" />
+<meta name="author" content="Cosmo Bloom" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#0a0014" />
+<link rel="canonical" href="https://cosmobloom.pl/" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="pl_PL" />
+<meta property="og:url" content="https://cosmobloom.pl/" />
+<meta property="og:site_name" content="Cosmo Bloom" />
+<meta property="og:title" content="Cosmo Bloom · Studio projektujące strony i aplikacje webowe" />
+<meta property="og:description" content="Tworzymy strony i aplikacje, które zatrzymują wzrok i przenoszą biznes na wyższy poziom. Design + inżynieria + SEO + opieka." />
+<meta property="og:image" content="https://cosmobloom.pl/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Cosmo Bloom · Studio projektujące strony i aplikacje webowe" />
+<meta name="twitter:description" content="Strony i aplikacje, które zatrzymują wzrok i przenoszą biznes na wyższy poziom." />
+<meta name="twitter:image" content="https://cosmobloom.pl/og-image.png" />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='28' fill='%23ff007f'/%3E%3Cellipse cx='50' cy='50' rx='44' ry='10' fill='none' stroke='%23ff007f' stroke-width='3'/%3E%3C/svg%3E" />
+
+<!-- Performance: preconnect to font + script CDNs -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://unpkg.com" crossorigin />
+<link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<!-- JSON-LD: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Cosmo Bloom",
+  "alternateName": "Cosmo Bloom Studio",
+  "url": "https://cosmobloom.pl/",
+  "logo": "https://cosmobloom.pl/og-image.png",
+  "description": "Studio projektowo-inżynierskie tworzące strony i aplikacje webowe.",
+  "email": "kontakt@cosmobloom.pl",
+  "telephone": "+48692020667",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Warszawa",
+    "addressCountry": "PL"
+  },
+  "sameAs": []
+}
+</script>
+
+<!-- JSON-LD: LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://cosmobloom.pl/#localbusiness",
+  "name": "Cosmo Bloom",
+  "image": "https://cosmobloom.pl/og-image.png",
+  "url": "https://cosmobloom.pl/",
+  "telephone": "+48692020667",
+  "email": "kontakt@cosmobloom.pl",
+  "priceRange": "$$",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Warszawa",
+    "addressCountry": "PL"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "opens": "09:00",
+    "closes": "17:00"
+  },
+  "areaServed": "PL",
+  "knowsAbout": ["Projektowanie stron internetowych", "Aplikacje webowe", "UX/UI Design", "SEO techniczne", "Next.js", "React"]
+}
+</script>
+
+<!-- JSON-LD: WebSite -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://cosmobloom.pl/",
+  "name": "Cosmo Bloom",
+  "inLanguage": "pl-PL",
+  "publisher": { "@id": "https://cosmobloom.pl/#localbusiness" }
+}
+</script>
+
+<!-- JSON-LD: FAQPage (rich snippets w Google) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Ile kosztuje realizacja projektu?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Każdy projekt wyceniamy indywidualnie po analizie Twoich potrzeb. Stosujemy model Fixed Price, co oznacza, że cena nie zmieni się w trakcie realizacji."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Czy otrzymam wsparcie po uruchomieniu strony?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tak — zajmujemy się też opieką techniczną po wdrożeniu. Oferujemy długoterminowe pakiety utrzymaniowe, aby Twoja strona zawsze była bezpieczna i aktualna."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Czy strona będzie poprawnie wyświetlać się na telefonach?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bezwzględnie. Projektujemy w podejściu Mobile-First. Twoja strona będzie zoptymalizowana pod kątem szybkości i wygody użytkowania na każdym urządzeniu."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Jak wygląda proces współpracy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Zaczynamy od warsztatu strategicznego, następnie tworzymy prototypy, design i finalny kod. Całość odbywa się w przejrzystych tygodniowych cyklach (sprintach)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Czy pracujecie z firmami spoza Polski?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tak, regularnie. Komunikujemy się po polsku i angielsku, a nasze procesy są skrojone pod współpracę asynchroniczną w trzech strefach czasowych."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- React + Babel + Tailwind (defer = nie blokują renderingu) -->
+<script defer src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script defer src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script defer src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <script>

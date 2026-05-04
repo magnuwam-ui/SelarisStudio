@@ -351,7 +351,7 @@ function App() {
               ].map(v => (
                 <div key={v.num} className="border border-white/10 rounded-2xl p-5 bg-white/5 hover:border-pink-1 transition-all">
                   <div className="font-mono text-[11px] text-orange-1 tracking-[0.2em]">/{v.num}</div>
-                  <h4 className="font-display mt-2 font-bold uppercase text-xs tracking-widest">{v.title}</h4>
+                  <h3 className="font-display mt-2 font-bold uppercase text-xs tracking-widest">{v.title}</h3>
                   <p className="text-[0.8rem] text-zinc-200 mt-2 leading-relaxed">{v.text}</p>
                 </div>
               ))}
@@ -510,7 +510,7 @@ function App() {
               style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)' }}>Wiedza.</h2>
             <div className="flex flex-col">
               <FAQItem question="Ile kosztuje realizacja projektu?" answer="Każdy projekt wyceniamy indywidualnie po analizie Twoich potrzeb. Stosujemy model Fixed Price, co oznacza, że cena nie zmieni się w trakcie trwania prac." />
-              <FAQItem question="Czy otrzymam wsparcie po uruchomieniu strony?" answer="Tak. Każdy projekt obejmuje 3 miesiące bezpłatnej opieki technicznej. Oferujemy również długoterminowe pakiety utrzymaniowe, aby Twoja strona zawsze była bezpieczna i aktualna." />
+              <FAQItem question="Czy otrzymam wsparcie po uruchomieniu strony?" answer="Tak — zajmujemy się też opieką techniczną po wdrożeniu. Oferujemy długoterminowe pakiety utrzymaniowe, aby Twoja strona zawsze była bezpieczna i aktualna." />
               <FAQItem question="Czy strona będzie poprawnie wyświetlać się na telefonach?" answer="Bezwzględnie. Projektujemy w podejściu Mobile-First. Twoja strona będzie zoptymalizowana pod kątem szybkości i wygody użytkowania na każdym urządzeniu." />
               <FAQItem question="Jak wygląda proces współpracy?" answer="Zaczynamy od warsztatu strategicznego, następnie tworzymy prototypy, design i finalny kod. Całość odbywa się w przejrzystych tygodniowych cyklach (sprintach)." />
               <FAQItem question="Czy pracujecie z firmami spoza Polski?" answer="Tak, regularnie. Komunikujemy się po polsku i angielsku, a nasze procesy są skrojone pod współpracę asynchroniczną w trzech strefach czasowych." />
@@ -538,11 +538,11 @@ function App() {
                   </div>
                   <span className="text-lg font-medium group-hover:text-pink-1 transition-colors">kontakt@cosmobloom.studio</span>
                 </a>
-                <a href="tel:+48223058104" className="flex items-center gap-4 group">
+                <a href="tel:+48692020667" className="flex items-center gap-4 group">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-pink-1 group-hover:border-pink-1 group-hover:bg-pink-1/10 transition-all">
                     <Icon.Phone />
                   </div>
-                  <span className="text-lg font-medium group-hover:text-pink-1 transition-colors">+48 22 305 81 04</span>
+                  <span className="text-lg font-medium group-hover:text-pink-1 transition-colors">+48 692 020 667</span>
                 </a>
               </div>
 
@@ -605,7 +605,7 @@ function App() {
       <footer className="px-[6vw] py-16 border-t border-white/5 relative z-10">
         <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
           <div className="font-display font-bold text-xl tracking-tighter text-white">COSMO BLOOM © 2026</div>
-          <nav className="flex gap-8 font-mono text-[10px] tracking-widest text-zinc-300">
+          <nav style={{display: 'none'}} className="gap-8 font-mono text-[10px] tracking-widest text-zinc-300">
             <a href="#" className="hover:text-white transition-colors">LINKEDIN</a>
             <a href="#" className="hover:text-white transition-colors">DRIBBBLE</a>
             <a href="#" className="hover:text-white transition-colors">INSTAGRAM</a>
@@ -613,8 +613,7 @@ function App() {
           </nav>
           <div className="font-mono text-[9px] text-zinc-300 uppercase tracking-[0.4em]">ZBUDOWANE W KOSMOSIE · WARSZAWA</div>
         </div>
-        <div className="max-w-[1200px] mx-auto mt-10 pt-6 border-t border-white/5 flex justify-between font-mono text-[9px] tracking-[0.3em] text-zinc-400 uppercase">
-          <span>NIP 521-37-91-204</span>
+        <div className="max-w-[1200px] mx-auto mt-10 pt-6 border-t border-white/5 flex justify-end font-mono text-[9px] tracking-[0.3em] text-zinc-400 uppercase">
           <span>v 2026.05 · MISJA W BIEGU</span>
         </div>
       </footer>

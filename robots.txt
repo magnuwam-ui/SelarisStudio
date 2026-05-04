@@ -1,0 +1,8 @@
+# Cosmo Bloom — robots.txt
+User-agent: *
+Allow: /
+
+# Cloudflare Pages funkcje API — nie indeksować
+Disallow: /api/
+
+Sitemap: https://cosmobloom.pl/sitemap.xml
