@@ -1,0 +1,6 @@
+# Wszystkie ścieżki zaczynające się od /api/ idą do Pages Functions
+# Wszystkie inne — do static assets (index.html jako fallback dla SPA)
+/api/* /api/:splat 200
+
+# SPA fallback — każda nieznana ścieżka serwuje index.html
+/* /index.html 200
