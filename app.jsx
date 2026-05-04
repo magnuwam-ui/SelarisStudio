@@ -185,13 +185,46 @@ function App() {
     return () => document.removeEventListener('click', onClick);
   }, []);
 
-  const handleSubmit = (e) => {
+  const [formError, setFormError] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submitting) return;
+    setFormError(null);
+    setSubmitting(true);
     setFormStatus('TRANSMITUJĘ…');
-    setTimeout(() => {
-      setFormStatus('✓ SYGNAŁ ODEBRANY · ODPOWIEMY W 24H');
-      e.target.reset();
-    }, 1100);
+
+    const form = e.target;
+    const fd = new FormData(form);
+    const payload = {
+      name: (fd.get('name') || '').toString(),
+      email: (fd.get('email') || '').toString(),
+      budget: (fd.get('budget') || '').toString(),
+      message: (fd.get('message') || '').toString(),
+      website: (fd.get('website') || '').toString(), // honeypot
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        setFormStatus('✓ SYGNAŁ ODEBRANY · ODPOWIEMY W 24H');
+        form.reset();
+      } else {
+        setFormError(data.error || 'Nie udało się wysłać. Spróbuj ponownie lub napisz na kontakt@cosmobloom.studio');
+        setFormStatus(null);
+      }
+    } catch (err) {
+      setFormError('Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.');
+      setFormStatus(null);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const navItems = [
@@ -232,7 +265,7 @@ function App() {
           ))}
         </nav>
 
-        <a href="#kontakt" className="px-6 py-3 rounded-full bg-pink-1 text-white border border-pink-1 font-mono text-[11px] tracking-[0.2em] hover:bg-white hover:text-black hover:border-white transition-all pointer-events-auto group flex items-center gap-2"
+        <a href="#kontakt" className="px-6 py-3 rounded-full bg-pink-1 text-white border border-pink-1 font-bold uppercase text-[12px] tracking-[0.18em] hover:bg-white hover:text-black hover:border-white transition-all pointer-events-auto group flex items-center gap-2"
           style={{ boxShadow: '0 0 15px rgba(255,0,127,0.3)' }}>
           WSPÓŁPRACA <Icon.Arrow className="group-hover:translate-x-1 transition-transform" />
         </a>
@@ -256,9 +289,9 @@ function App() {
               SEZON 2026 · NOWE PROJEKTY · 3 MIEJSCA
             </div>
 
-            <h1 className="font-display font-bold tracking-[-0.03em] max-w-[14ch] text-glow-pink"
-              style={{ fontSize: 'clamp(2.5rem, 7vw, 7rem)', lineHeight: 1.32, paddingBottom: '0.3em', overflow: 'visible' }}>
-              Projektujemy Twoją{' '}<span style={{ display: 'inline-block', overflow: 'visible', paddingBottom: '0.4em' }}>
+            <h1 className="font-display font-bold tracking-[-0.03em] max-w-[20ch] text-glow-pink"
+              style={{ fontSize: 'clamp(2.5rem, 7vw, 7rem)', lineHeight: 1.05, overflow: 'visible' }}>
+              <span style={{ whiteSpace: 'nowrap' }}>Projektujemy Twoją</span><br/><span style={{ display: 'inline-block', overflow: 'visible', paddingBottom: '0.18em' }}>
                 <em className="italic"
                   style={{
                     background: 'linear-gradient(120deg,#FF0080,#FF8000,#FF0080)',
@@ -267,8 +300,8 @@ function App() {
                     WebkitTextFillColor: 'transparent',
                     color: 'transparent',
                     display: 'inline-block',
-                    lineHeight: 1.5,
-                    paddingBottom: '0.4em',
+                    lineHeight: 1.05,
+                    paddingBottom: '0.18em',
                     paddingRight: '0.1em',
                     fontStyle: 'italic'
                   }}>
@@ -277,17 +310,17 @@ function App() {
               </span>
             </h1>
 
-            <p className="max-w-[50ch] text-zinc-100 leading-relaxed mt-7 border-l-2 border-pink-1/60 pl-6"
+            <p className="max-w-[50ch] text-zinc-100 leading-relaxed mt-5 border-l-2 border-pink-1/60 pl-6"
               style={{ fontSize: 'clamp(1rem, 1.1vw, 1.15rem)' }}>
               Cosmo Bloom buduje strony i aplikacje webowe, które zatrzymują wzrok i przenoszą biznes na wyższy poziom. Łączymy rzemiosło z nowoczesną inżynierią.
             </p>
 
             <div className="flex gap-4 mt-12 flex-wrap">
-              <a href="#kontakt" className="px-8 py-4 rounded-full bg-pink-1 text-white font-mono text-xs uppercase tracking-[0.2em] hover:bg-white hover:text-black hover:-translate-y-1 transition-all flex items-center gap-2"
+              <a href="#kontakt" className="px-8 py-4 rounded-full bg-pink-1 text-white font-bold uppercase text-[13px] tracking-[0.18em] hover:bg-white hover:text-black hover:-translate-y-1 transition-all flex items-center gap-2"
                 style={{ boxShadow: '0 10px 40px rgba(255,0,127,0.4)' }}>
                 Zacznij projekt <Icon.ArrowUp />
               </a>
-              <a href="#uslugi" className="px-8 py-4 rounded-full border border-white/30 bg-white/5 backdrop-blur-md font-mono text-xs uppercase tracking-[0.2em] hover:border-pink-1 hover:text-pink-1 transition-all">
+              <a href="#uslugi" className="px-8 py-4 rounded-full border border-white/30 bg-white/5 backdrop-blur-md font-bold uppercase text-[13px] tracking-[0.18em] hover:border-pink-1 hover:text-pink-1 transition-all">
                 Zobacz usługi
               </a>
             </div>
@@ -406,7 +439,7 @@ function App() {
                 <Reveal key={i} delay={i * 80} className="h-full">
                   <div className="bento-card flex flex-col group h-full">
                     <div className="w-full flex items-center justify-between">
-                      <div className="text-4xl font-display font-black text-pink-1/20 group-hover:text-pink-1/50 transition-colors">{p.step}</div>
+                      <div className="text-4xl font-display font-black text-pink-1/45 group-hover:text-pink-1 transition-colors">{p.step}</div>
                       <div className="font-mono text-[9px] tracking-[0.25em] text-zinc-300">{p.days}</div>
                     </div>
                     <h3 className="text-xl font-bold text-white mt-5 min-h-[3.5rem]">{p.title}</h3>
@@ -513,29 +546,36 @@ function App() {
                 </a>
               </div>
 
-              <div className="mt-12 p-5 rounded-2xl border border-white/10 bg-white/[0.02] font-mono text-[10px] tracking-[0.25em] text-zinc-300 max-w-[420px]">
-                <div className="text-pink-1 mb-2">● STACJA NASŁUCHOWA</div>
-                <div>Pn–Pt · 09:00–17:00 CET</div>
-                <div className="mt-1">ul. Wspólna 56 · 00-687 Warszawa</div>
+              <div className="mt-12 p-6 rounded-2xl border border-white/15 bg-white/[0.04] max-w-[460px]">
+                <div className="font-display font-bold text-pink-1 text-[15px] tracking-wide mb-3">● STACJA NASŁUCHOWA</div>
+                <div className="text-zinc-100 text-[15px] leading-relaxed">Pn–Pt · 09:00–17:00 CET</div>
+                <div className="text-zinc-100 text-[15px] leading-relaxed mt-1">ul. Wspólna 56 · 00-687 Warszawa</div>
               </div>
             </Reveal>
 
             <Reveal className="bg-white/5 border border-white/10 p-10 md:p-12 rounded-[40px] backdrop-blur-2xl">
-              <form onSubmit={handleSubmit} className="space-y-7">
+              <form onSubmit={handleSubmit} className="space-y-7" noValidate>
+                {/* Honeypot — ukryte przed użytkownikiem, boty często wypełniają */}
+                <div style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }} aria-hidden="true">
+                  <label>Strona WWW (nie wypełniaj)
+                    <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+                  </label>
+                </div>
+
                 <div className="flex flex-col gap-2">
                   <label className="font-mono text-[10px] text-zinc-200 uppercase tracking-[0.3em]">Imię i nazwisko</label>
-                  <input required className="bg-transparent border-b border-white/20 py-3 outline-none focus:border-pink-1 transition-colors text-white placeholder:text-zinc-400" placeholder="Jan Kowalski" />
+                  <input name="name" required maxLength={120} disabled={submitting} className="bg-transparent border-b border-white/20 py-3 outline-none focus:border-pink-1 transition-colors text-white placeholder:text-zinc-400 disabled:opacity-50" placeholder="Jan Kowalski" />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="font-mono text-[10px] text-zinc-200 uppercase tracking-[0.3em]">Email</label>
-                  <input required type="email" className="bg-transparent border-b border-white/20 py-3 outline-none focus:border-pink-1 transition-colors text-white placeholder:text-zinc-400" placeholder="ty@firma.pl" />
+                  <input name="email" required type="email" maxLength={200} disabled={submitting} className="bg-transparent border-b border-white/20 py-3 outline-none focus:border-pink-1 transition-colors text-white placeholder:text-zinc-400 disabled:opacity-50" placeholder="ty@firma.pl" />
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="font-mono text-[10px] text-zinc-200 uppercase tracking-[0.3em]">Budżet (orientacyjnie)</label>
                   <div className="flex flex-wrap gap-2 mt-1">
-                    {['< 30k', '30–80k', '80–200k', '> 200k'].map(b => (
+                    {['< 10k', '10–20k', '20–50k', '> 50k'].map(b => (
                       <label key={b} className="cursor-pointer">
-                        <input type="radio" name="budget" value={b} className="peer sr-only" />
+                        <input type="radio" name="budget" value={b} disabled={submitting} className="peer sr-only" />
                         <span className="px-4 py-2 rounded-full border border-white/15 text-[11px] font-mono tracking-[0.15em] peer-checked:bg-pink-1 peer-checked:border-pink-1 peer-checked:text-white text-zinc-400 hover:border-white/40 transition-all block">{b} PLN</span>
                       </label>
                     ))}
@@ -543,9 +583,16 @@ function App() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="font-mono text-[10px] text-zinc-200 uppercase tracking-[0.3em]">Opisz swój projekt</label>
-                  <textarea required className="bg-transparent border-b border-white/20 py-3 outline-none focus:border-pink-1 transition-colors min-h-[100px] text-white placeholder:text-zinc-400" placeholder="Strona webowa, termin marzec…" />
+                  <textarea name="message" required minLength={10} maxLength={5000} disabled={submitting} className="bg-transparent border-b border-white/20 py-3 outline-none focus:border-pink-1 transition-colors min-h-[100px] text-white placeholder:text-zinc-400 disabled:opacity-50" placeholder="Strona webowa, termin marzec…" />
                 </div>
-                <button type="submit" className="w-full bg-pink-1 text-white py-5 rounded-full font-bold uppercase tracking-widest hover:bg-[#ff1a8c] hover:-translate-y-1 transition-all"
+
+                {formError && (
+                  <div className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-[13px] text-red-200" role="alert">
+                    {formError}
+                  </div>
+                )}
+
+                <button type="submit" disabled={submitting} className="w-full bg-pink-1 text-white py-5 rounded-full font-bold uppercase tracking-widest hover:bg-[#ff1a8c] hover:-translate-y-1 transition-all disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   style={{ boxShadow: '0 10px 40px rgba(255,0,127,0.4)' }}>
                   {formStatus || 'WYŚLIJ SYGNAŁ →'}
                 </button>
