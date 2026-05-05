@@ -216,7 +216,7 @@ function App() {
         setFormStatus('✓ SYGNAŁ ODEBRANY · ODPOWIEMY W 24H');
         form.reset();
       } else {
-        setFormError(data.error || 'Nie udało się wysłać. Spróbuj ponownie lub napisz na kontakt@cosmobloom.studio');
+        setFormError(data.error || 'Nie udało się wysłać. Spróbuj ponownie lub napisz na kontakt@cosmobloom.pl');
         setFormStatus(null);
       }
     } catch (err) {
@@ -532,11 +532,11 @@ function App() {
               </p>
 
               <div className="space-y-5">
-                <a href="mailto:kontakt@cosmobloom.studio" className="flex items-center gap-4 group">
+                <a href="mailto:kontakt@cosmobloom.pl" className="flex items-center gap-4 group">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-pink-1 group-hover:border-pink-1 group-hover:bg-pink-1/10 transition-all">
                     <Icon.Mail />
                   </div>
-                  <span className="text-lg font-medium group-hover:text-pink-1 transition-colors">kontakt@cosmobloom.studio</span>
+                  <span className="text-lg font-medium group-hover:text-pink-1 transition-colors">kontakt@cosmobloom.pl</span>
                 </a>
                 <a href="tel:+48692020667" className="flex items-center gap-4 group">
                   <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-pink-1 group-hover:border-pink-1 group-hover:bg-pink-1/10 transition-all">
